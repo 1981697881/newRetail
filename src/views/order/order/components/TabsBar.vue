@@ -73,6 +73,7 @@ export default {
           inputErrorMessage: '价格格式不正确'
         }).then(({ value }) => {
           this.clickData.payMoney = value
+          this.clickData.status = '1'
           confirmOrder(this.clickData).then(res => {
             if(res.flag){
               this.$emit('uploadList')

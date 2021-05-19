@@ -7,6 +7,18 @@
             <el-input v-model="form.spuName" ></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="12">
+          <el-form-item :label="'零售价'" >
+            <el-input-number v-model="form.retailPrice" min="1"></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'备注'" >
+            <el-input v-model="form.remark" ></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24" style="text-align: center">
@@ -121,6 +133,7 @@
         form: {
           spuName: null,
           spuId: null,
+          retailPrice: null,
           spuPhoto: null,
         },
         checkYzData: null,

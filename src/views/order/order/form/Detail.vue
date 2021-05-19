@@ -42,7 +42,6 @@ export default {
     };
   },
   mounted() {
-    this.fetchFormat();
     if (this.listInfo) {
       this.fetchFormat({orderId: this.listInfo.orderId})
     }
@@ -60,4 +59,7 @@ export default {
 </script>
 
 <style>
+  .list-main {
+    height: 300px;
+  }
 </style>
