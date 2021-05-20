@@ -41,11 +41,34 @@ export function addSpu(params) {
     data: params,
     method: 'post'
   })
+}// 商品尺码-颜色-查询
+export function submesList(params) {
+  return request({
+    url: '/submesType/submesList',
+    headers: {
+      'authorization': getToken('nrrx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
+// 商品-修改
+export function updateSpu(params) {
+  return request({
+    url: '/spu/updateSpu',
+    headers: {
+      'authorization': getToken('nrrx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
 }
 
 // 商品规格-查询
 export function findSkuBySpuId(data) {
-  const url = '/sku/findSkuBySpuId'
+  const url = '/spu/selectUpdateSpu'
   return request({
     url: url,
     headers: {

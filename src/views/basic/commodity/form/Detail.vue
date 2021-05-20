@@ -8,13 +8,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'零售价'" >
-            <el-input-number v-model="form.retailPrice" min="1"></el-input-number>
+          <el-form-item :label="'SQUID'" prop="spuId">
+            <el-input v-model="form.spuId"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="24">
+        <el-col :span="12">
+          <el-form-item :label="'零售价'" >
+            <el-input-number v-model="form.retailPrice" :min=1></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
           <el-form-item :label="'备注'" >
             <el-input v-model="form.remark" ></el-input>
           </el-form-item>
@@ -47,7 +52,25 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'商品规格'" prop="orgAttr">
+          <el-form-item :label="'颜色'" >
+            <el-checkbox-group v-model="colorboxGroup" size="medium">
+              <el-checkbox-button v-for="color in colorList" :label="color.colorId" :key="color.colorId">{{color.skuColor}}</el-checkbox-button>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'尺码'" >
+            <el-checkbox-group v-model="sizeboxGroup" size="medium">
+              <el-checkbox-button v-for="size in sizeList" :label="size.sizeId" :key="size.sizeId">{{size.sizeCode}}</el-checkbox-button>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+     <!-- <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'商品颜色'" prop="orgAttr">
             <div style="margin-top: 20px;margin-bottom: 10px">
               <el-button @click="setRow">添加</el-button>
               <el-button @click="delRow">删除</el-button>
@@ -65,7 +88,7 @@
             </el-table>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row>-->
     </el-form>
     <el-dialog
       :visible.sync="visible"
@@ -100,7 +123,7 @@
 </template>
 
 <script>
-  import {addSpu,addSku,deleteSku,findSkuBySpuId} from "@/api/basic/index";
+  import {addSpu,addSku,deleteSku,findSkuBySpuId,submesList,updateSpu} from "@/api/basic/index";
   import {
     getToken
   } from '@/utils/auth'
@@ -117,6 +140,10 @@
         headers: {
           'authorization': getToken('nrrx'),
         },
+        colorboxGroup: [],
+        sizeboxGroup: [],
+        colorList: [],
+        sizeList: [],
         visible: null,
         list: [],
         columns1: [
@@ -126,6 +153,7 @@
         fileUrl: '',
         images: [],
         hidePicture: false,
+        isupload: false,
         dialogImageUrl: '',
         dialogVisible: false,
         pictureList: [],
@@ -146,6 +174,9 @@
           spuName: [
             {required: true, message: '请输入', trigger: 'blur'}
           ],
+          spuId: [
+            {required: true, message: '请输入', trigger: 'blur'}
+          ],
         },
         rules2: {
           skuColor: [
@@ -160,6 +191,7 @@
     mounted() {
       this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
       if (this.listInfo) {
+        this.isupload = true
         this.form = this.listInfo
         this.fetchData({spuId: this.listInfo.spuId})
         this.pictureList = []
@@ -171,6 +203,9 @@
         }else{
           this.hidePicture = false
         }
+      }else{
+        this.fetchList()
+        this.isupload = false
       }
     },
     methods: {
@@ -287,23 +322,100 @@
       },
       fetchData(val){
         findSkuBySpuId(val).then(res => {
-          this.list = res.data
+          this.colorList = res.data.colorVOS
+          this.sizeList = res.data.sizeVOS
+          this.colorList.forEach((item,index)=>{
+            if(item.sel == 1){
+              this.colorboxGroup.push(item.colorId)
+            }
+          })
+          this.sizeList.forEach((item,index)=>{
+            if(item.sel == 1){
+              this.sizeboxGroup.push(item.sizeId)
+            }
+          })
+        })
+      },
+      fetchList(val){
+        submesList({}).then(res => {
+          this.colorList = res.data[0].colorVOS
+          this.sizeList = res.data[1].sizeVOS
         })
       },
       saveData(form) {
         this.$refs[form].validate((valid) => {
           //判断必填项
           if (valid) {
-            //修改
-            addSpu(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
+            if(this.isupload){
+              let colors = []
+              let sizes = []
+              this.colorList.forEach((item)=>{
+                this.colorboxGroup.some((items)=>{
+                  if(item.colorId == items){
+                    item.sel = 1
+                    return true
+                  }else{
+                    item.sel = 0
+                  }
+                })
+              })
+              this.sizeList.forEach((item)=>{
+                this.sizeboxGroup.some((items)=>{
+                  if(item.sizeId == items){
+                    item.sel = 1
+                    return true
+                  }else{
+                    item.sel = 0
+                  }
+                })
+              })
+              this.form.colorVOS =  this.colorList
+              this.form.sizeVOS = this.sizeList
+              //修改
+              updateSpu(this.form).then(res => {
+                this.$emit('hideDialog', false)
+                this.$emit('uploadList')
+              });
+            }else{
+              let colors = []
+              let sizes = []
+              this.colorList.forEach((item)=>{
+                this.colorboxGroup.some((items)=>{
+                  if(item.colorId == items){
+                    colors.push({
+                      skuColor: item.skuColor,
+                      colorCode: item.colorCode,
+                      colorId: item.colorId,
+                    })
+                    return true
+                  }
+                })
+              })
+              this.sizeList.forEach((item)=>{
+                this.sizeboxGroup.some((items)=>{
+                  if(item.sizeId == items){
+                    sizes.push({
+                      sizeCode: item.sizeCode,
+                      sizeCn: item.sizeCode,
+                      sizeId: item.sizeId
+                    })
+                    return true
+                  }
+                })
+              })
+              this.form.colors = colors
+              this.form.sizes = sizes
+              //新增
+              addSpu(this.form).then(res => {
+                this.$emit('hideDialog', false)
+                this.$emit('uploadList')
+              });
+            }
+
           } else {
             return false;
           }
         })
-
       },
     }
   };
