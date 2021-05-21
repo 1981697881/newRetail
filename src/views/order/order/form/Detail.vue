@@ -34,7 +34,7 @@ export default {
       columns: [
         { text: "商品名称", name: "spuName" },
         { text: "商品颜色", name: "skuColor" },
-        { text: "尺码", name: "numberOfYards" },
+        { text: "尺码", name: "sizeCode" },
         { text: "数量", name: "skuCount" },
         { text: "订单号", name: "orderId" },
         { text: "图片", name: "spuPhoto", default: 'img'},

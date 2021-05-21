@@ -66,7 +66,7 @@ export default {
     },
     confirm(){
       if (this.clickData.orderId) {
-        this.$prompt('请输入总价格', '提示', {
+        this.$prompt('请输入折扣系数（系数10%=0.1）例：100-(100*0.1)=90 实际金额为90', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /^(([^0][0-9]+|0)\.([0-9]{1,2})$)|^([^0][0-9]+|0)$/,
