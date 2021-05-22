@@ -36,8 +36,8 @@ export default {
         { text: "订单号", name: "orderId" },
         { text: "手机号码", name: "phoneNumber" },
         { text: "订单金额", name: "payMoney" },
-        { text: "优惠金额", name: "" },
-        { text: "实际金额", name: "" },
+        { text: "优惠金额", name: "discountAmount" },
+        { text: "实际金额", name: "actualMoney" },
         { text: "状态", name: "status" },
         { text: "下单时间", name: "createDatetime",sort: true },
       ]

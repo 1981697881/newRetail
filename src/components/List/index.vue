@@ -42,7 +42,7 @@
           align="center"
         >
           <template width="90" slot-scope="scope">
-            <img style="width:80px;height:80px;border:none;" :src=" fileUrl+scope.row.posterPhoto">
+            <img style="width:80px;height:80px;border:none;" src="scope.row.posterPhoto">
           </template>
         </el-table-column>
       </template>

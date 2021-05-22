@@ -37,6 +37,7 @@ export default {
       checkDate:null,
       columns: [
         { text: "商品名称", name: "spuName" },
+        { text: "spuId", name: "spuId" },
         { text: "零售价", name: "retailPrice" },
       ]
     };

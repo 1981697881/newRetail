@@ -194,15 +194,7 @@
         this.isupload = true
         this.form = this.listInfo
         this.fetchData({spuId: this.listInfo.spuId})
-        this.pictureList = []
-        if(this.form.spuPhoto != null && this.form.spuPhoto.length>0){
-          this.pictureList.push({
-            url: this.$store.state.user.url+'/movie/uploadFiles/image/' + this.form.spuPhoto
-          })
-          this.hidePicture = true
-        }else{
-          this.hidePicture = false
-        }
+
       }else{
         this.fetchList()
         this.isupload = false
@@ -324,6 +316,15 @@
         findSkuBySpuId(val).then(res => {
           this.colorList = res.data.colorVOS
           this.sizeList = res.data.sizeVOS
+          this.pictureList = []
+          if(res.data.spuPhoto != null && res.data.spuPhoto.length>0){
+            this.pictureList.push({
+              url: res.data.spuPhoto
+            })
+            this.hidePicture = true
+          }else{
+            this.hidePicture = false
+          }
           this.colorList.forEach((item,index)=>{
             if(item.sel == 1){
               this.colorboxGroup.push(item.colorId)

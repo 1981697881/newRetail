@@ -72,7 +72,7 @@ export default {
           inputPattern: /^(([^0][0-9]+|0)\.([0-9]{1,2})$)|^([^0][0-9]+|0)$/,
           inputErrorMessage: '价格格式不正确'
         }).then(({ value }) => {
-          this.clickData.payMoney = value
+          this.clickData.discount = value
           this.clickData.status = '1'
           confirmOrder(this.clickData).then(res => {
             if(res.flag){
