@@ -20,6 +20,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
+          <el-form-item :label="'分类'" prop="classificationId">
+            <el-select v-model="form.classificationId" class="width-full"  placeholder="请选择">
+              <el-option :label="t.classificationName" :value="t.classificationId" v-for="(t,i) in tArray" :key="i"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
           <el-form-item :label="'备注'" >
             <el-input v-model="form.remark" ></el-input>
           </el-form-item>
@@ -123,7 +132,7 @@
 </template>
 
 <script>
-  import {addSpu,addSku,deleteSku,findSkuBySpuId,submesList,updateSpu} from "@/api/basic/index";
+  import {addSpu,addSku,deleteSku,findSkuBySpuId,submesList,updateSpu,Classification} from "@/api/basic/index";
   import {
     getToken
   } from '@/utils/auth'
@@ -144,6 +153,7 @@
         sizeboxGroup: [],
         colorList: [],
         sizeList: [],
+        tArray: [],
         visible: null,
         list: [],
         columns1: [
@@ -162,6 +172,7 @@
           spuName: null,
           spuId: null,
           retailPrice: null,
+          classificationId: null,
           spuPhoto: null,
         },
         checkYzData: null,
@@ -173,6 +184,8 @@
         rules: {
           spuName: [
             {required: true, message: '请输入', trigger: 'blur'}
+          ], classificationId: [
+            {required: true, message: '请选择', trigger: 'change'}
           ],
           spuId: [
             {required: true, message: '请输入', trigger: 'blur'}
@@ -189,6 +202,7 @@
       };
     },
     mounted() {
+      this.fetchType()
       this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
       if (this.listInfo) {
         this.isupload = true
@@ -341,6 +355,11 @@
         submesList({}).then(res => {
           this.colorList = res.data[0].colorVOS
           this.sizeList = res.data[1].sizeVOS
+        })
+      },
+      fetchType(){
+        Classification({}).then(res => {
+          this.tArray = res.data
         })
       },
       saveData(form) {

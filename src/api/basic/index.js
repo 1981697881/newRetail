@@ -2,7 +2,57 @@ import request from '@/utils/request'
 import {
   getToken
 } from '@/utils/auth'
+// 商品分类-获取列表
+export function findClassification(params, data) {
+  const url = '/goodsClassification/findClassification/' + params.pageNum + '/' + params.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('nrrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: data
+  })
+}
+// 商品分类-删除
+export function deleteClassification(params) {
+  const url = '/goodsClassification/deleteClassification'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('nrrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
 
+// 商品分类-添加
+export function addClassification(params) {
+  return request({
+    url: '/goodsClassification/addClassification',
+    headers: {
+      'authorization': getToken('nrrx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
+// 商品分类-查询
+export function Classification(params) {
+  return request({
+    url: '/app/api/Classification',
+    headers: {
+      'authorization': getToken('nrrx'),
+      'Content-Type': 'application/json'
+    },
+    data: params,
+    method: 'post'
+  })
+}
 // 商品-获取列表
 export function getSpuListList(params, data) {
   const url = '/spu/spuList/' + params.pageNum + '/' + params.pageSize
@@ -41,7 +91,8 @@ export function addSpu(params) {
     data: params,
     method: 'post'
   })
-}// 商品尺码-颜色-查询
+}
+// 商品尺码-颜色-查询
 export function submesList(params) {
   return request({
     url: '/submesType/submesList',

@@ -62,6 +62,13 @@ export const StaticRouterMap = [{
       icon: 'component'
     },
     children: [{
+      path: 'classification',
+      component: () => import('@/views/basic/classification/index'),
+      name: 'Classification',
+      meta: {
+        title: '商品分类'
+      },
+    },{
       path: 'commodity',
       component: () => import('@/views/basic/commodity/index'),
       name: 'Commodity',

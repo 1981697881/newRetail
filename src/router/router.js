@@ -7,6 +7,7 @@ const map = {
   error: () => import('@/views/404'),
   'basic': () => import('@/layout'),
   'commodity': () => import('@/views/basic/commodity'),
+  'classification': () => import('@/views/basic/classification'),
   'specifications': () => import('@/views/basic/specifications'),
   'clerk': () => import('@/views/basic/clerk'),
 
