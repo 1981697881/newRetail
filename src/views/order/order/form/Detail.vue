@@ -38,7 +38,7 @@ export default {
         { text: "尺码", name: "sizeCode" },
         { text: "数量", name: "skuCount" },
         { text: "订单号", name: "orderId" },
-     /*   { text: "图片", name: "spuPhoto", default: 'img'},*/
+        { text: "图片", name: "spuPhoto", default: 'img'},
       ]
     };
   },
