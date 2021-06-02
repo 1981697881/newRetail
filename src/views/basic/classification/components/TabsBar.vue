@@ -6,8 +6,6 @@
         <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="del">删除</el-button>
-       <!-- <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >上映</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >下架</el-button>-->
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -73,7 +71,6 @@ export default {
       if(file.status=='ready'){
         this.submitUpload()
       }
-
     },
     // 查询条件过滤
     qFilter() {
@@ -85,7 +82,8 @@ export default {
       this[method]()
     },
     handlerAdd() {
-      this.$emit('showDialog')
+      this.clickData.type = 'add'
+      this.$emit('showDialog', this.clickData)
     },
     upload() {
       this.$emit('uploadList')
@@ -112,7 +110,8 @@ export default {
       }
     },
     handlerAlter() {
-      if (this.clickData.filmId) {
+      this.clickData.type = 'alter'
+      if (this.clickData.classificationId) {
         this.$emit('showDialog', this.clickData)
       } else {
         this.$message({
@@ -121,34 +120,7 @@ export default {
         });
       }
     },
-    disable() {
-      if (this.clickData.filmId) {
-        FrameAlter({filmId: this.clickData.filmId, disable: true}).then(res => {
-          if(res.flag) {
-            this.$emit('uploadList')
-          }
-        });
-      } else {
-        this.$message({
-          message: '无选中行',
-          type: 'warning'
-        });
-      }
-    },
-    enable() {
-      if (this.clickData.filmId) {
-        FrameAlter({filmId: this.clickData.filmId, disable: false}).then(res => {
-          if(res.flag){
-            this.$emit('uploadList')
-          }
-        })
-      } else {
-        this.$message({
-          message: '无选中行',
-          type: 'warning'
-        });
-      }
-    },
+
   }
 };
 </script>

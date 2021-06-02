@@ -3,7 +3,14 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'名称'" prop="classificationName">
+          <el-form-item :label="'上级名称'" v-if="listInfo.type != 'alter'">
+            <el-input v-model="classificationName" disabled></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="'分类名称'" prop="classificationName">
             <el-input v-model="form.classificationName"></el-input>
           </el-form-item>
         </el-col>
@@ -26,8 +33,10 @@ export default {
   },
   data() {
     return {
+      classificationName: '无',
       form: {
         classificationName: null,
+        level: '1',
       },
       disPl: true,
       rules: {
@@ -39,7 +48,15 @@ export default {
   },
   mounted() {
     if (this.listInfo) {
-      this.form = this.listInfo
+      if(typeof this.listInfo.type != "undefined" && this.listInfo.type == 'alter'){
+          this.form = this.listInfo
+      }else{
+        if(this.listInfo.level == "1"){
+          this.classificationName = this.listInfo.classificationName
+          this.form.level = '2'
+          this.form.parentId = this.listInfo.classificationId
+        }
+      }
     }
   },
   methods: {

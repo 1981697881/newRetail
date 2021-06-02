@@ -12,10 +12,12 @@
       :row-style="formatRow ? rowClass : null"
        @selection-change="handleSelectionChange"
       :height="height"
+      row-key="classificationId"
       @sort-change="sortChange"
       :show-summary="showSummary"
       :summary-method="getSummaries"
       v-loading="loading"
+      :tree-props="{children: 'goodsClassifications'}"
     >
       <el-table-column align="center" fixed v-if="type" :type="type?'selection':''"></el-table-column>
       <el-table-column v-if="index" prop="date" label="序号" type="index" align="center" sortable></el-table-column>

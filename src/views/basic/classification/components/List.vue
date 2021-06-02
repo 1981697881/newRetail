@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @dblclick="dblclick"
@@ -40,7 +39,6 @@ export default {
       ]
     };
   },
-
   methods: {
     // 监听每页显示几条
     handleSize(val) {
@@ -61,12 +59,14 @@ export default {
       });
     },
     uploadPr(val) {
+      this.$store.dispatch("list/setClickData", '');
       this.fetchData(val, {
         pageNum: 1,
         pageSize: this.list.size || 50
       })
     },
     dblclick(obj) {
+      obj.row.type = 'alter'
       this.$emit('showDialog', obj.row)
     },
     // 监听单击某一行
